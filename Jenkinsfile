@@ -3,12 +3,28 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh './mvnw package' 
+                bat 'mvn clean'
             }
         }
-        stage('Test') {
+
+        stage('Testing') {
             steps {
-                echo 'Testing..'
+                bat 'mvn test'
+            }
+        }
+
+        stage('Package') {
+            steps {
+                bat 'mvn package'
+            }
+        }
+
+        stage('Deploy') {
+            when{
+                branch 'master'
+            }
+            steps {
+                bat 'mvn deploy'
             }
         }
     }
